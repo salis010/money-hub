@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import React, { useState, useEffect } from "react";
-import { add, format } from "date-fns";
+import { add, format, differenceInYears } from "date-fns";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import { AccountSection } from "./AccountSection"
@@ -18,10 +18,21 @@ const Detail = ({}) => {
       .then((res) => res.json())
       .then(data => {
         const accountDetails = data.account
+        const { lastUpdate, associatedMortgages, originalPurchasePrice, originalPurchasePriceDate } = accountDetails
 
-        accountDetails.lastUpdateDate = format(new Date(accountDetails.lastUpdate), "do MMM yyyy")
-        accountDetails.mortgageDetails = accountDetails.associatedMortgages.length ? accountDetails.associatedMortgages[0] : undefined
-        accountDetails.purchaseDate = getDateFromString(accountDetails.originalPurchasePriceDate)
+        accountDetails.lastUpdateDate = format(new Date(lastUpdate), "do MMM yyyy")
+        accountDetails.mortgageDetails = associatedMortgages.length ? associatedMortgages[0] : undefined
+        accountDetails.purchaseDate = getDateFromString(originalPurchasePriceDate)
+        
+        const sincePurchase = accountDetails.recentValuation.amount - originalPurchasePrice
+        accountDetails.sincePurchase = formatCurrency(CURRENCIES.GBP, sincePurchase)
+
+        const sincePurchasePercentage = sincePurchase / originalPurchasePrice * 100
+        const numberOfYearsSincePurchase = differenceInYears(new Date(), new Date(originalPurchasePriceDate))
+
+        accountDetails.sincePurchasePercentage = sincePurchasePercentage
+        accountDetails.numberOfYearsSincePurchase = numberOfYearsSincePurchase
+        accountDetails.annualAppreciation = `${sincePurchasePercentage / numberOfYearsSincePurchase}%`
 
         setAccount(accountDetails)
       })
@@ -67,9 +78,11 @@ const Detail = ({}) => {
             </AccountListItem>
             <AccountListItem>
               <InfoText>Since purchase</InfoText>
+              {account.sincePurchase}
             </AccountListItem>
             <AccountListItem>
               <InfoText>Annual appreciation</InfoText>
+              {account.annualAppreciation}
             </AccountListItem>
           </AccountSection>
           {account.mortgage && (
