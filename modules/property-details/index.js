@@ -7,7 +7,7 @@ import { AccountSection } from "./AccountSection"
 import { getDateFromString } from "../../utils/getDateFromString"
 import { formatCurrency, CURRENCIES } from "../../utils/formatCurrency"
 import {
-  Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold 
+  Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold, Highlight 
 } from "./style";
 
 const Detail = ({}) => {
@@ -78,14 +78,14 @@ const Detail = ({}) => {
             </AccountListItem>
             <AccountListItem>
               <InfoText>Since purchase</InfoText>
-              {account.sincePurchase}
+              <Highlight>{account.sincePurchase} ({account.sincePurchasePercentage}%)</Highlight>
             </AccountListItem>
             <AccountListItem>
               <InfoText>Annual appreciation</InfoText>
-              {account.annualAppreciation}
+              <Highlight>{account.annualAppreciation}</Highlight>
             </AccountListItem>
           </AccountSection>
-          {account.mortgage && (
+          {account.mortgageDetails && (
             <AccountSection title='Mortgage'>
             <RowContainer
               // This is a dummy action

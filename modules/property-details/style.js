@@ -35,6 +35,7 @@ export const AccountList = styled.ul`
 
 export const AccountListItem = styled.li`
   display: flex;
+  align-items: center;
 
   &:not(:last-of-type) {
     margin-bottom: ${(props) => props.theme.space.m};
@@ -49,6 +50,17 @@ export const InfoText = styled.p`
 
 export const Bold = styled.span`
   font-weight: 600
+`
+
+export const Highlight = styled.div`
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  width: 12rem;
+  padding: ${(props) => props.theme.space.xs};
+  color: ${(props) => props.theme.colors.highlight.text};
+  background-color: ${(props) => props.theme.colors.highlight.background};
+  border-radius: 100rem;
 `
 
 
