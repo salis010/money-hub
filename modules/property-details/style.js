@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const Inset = styled.div`
+export const Inset = styled.main`
   padding: 0 ${(props) => props.theme.space.m};
 `;
 
@@ -33,7 +33,7 @@ export const AccountList = styled.ul`
   padding-left: 0;
 `;
 
-export const AccountListItem = styled.div`
+export const AccountListItem = styled.li`
   display: flex;
 
   &:not(:last-of-type) {
@@ -41,7 +41,7 @@ export const AccountListItem = styled.div`
   }
 `;
 
-export const InfoText = styled.div`
+export const InfoText = styled.p`
   line-height: 1.6;
   font-size: ${(props) => props.theme.typography.m.fontSize};
   color: ${(props) => props.theme.colors.neutral[600]};
