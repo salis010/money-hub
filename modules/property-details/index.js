@@ -12,9 +12,6 @@ import {
 
 const Detail = ({}) => {
   const [ account, setAccount ] = useState()
-  const [ lastUpdate, setLastUpdate ] = useState()
-  const [ mortgage, setMortgage ] = useState()
-  const [ purchaseDate, setPurchaseDate ] = useState()
 
   useEffect(() => {
     window.fetch("/api/account")
@@ -22,18 +19,13 @@ const Detail = ({}) => {
       .then(data => {
         const accountDetails = data.account
 
-        setLastUpdate(new Date(accountDetails.lastUpdate))
-
-        const mortgageDetails = accountDetails.associatedMortgages.length ? accountDetails.associatedMortgages[0] : undefined
-        setMortgage(mortgageDetails)
-
-        setPurchaseDate(getDateFromString(accountDetails.originalPurchasePriceDate))
+        accountDetails.lastUpdateDate = format(new Date(accountDetails.lastUpdate), "do MMM yyyy")
+        accountDetails.mortgageDetails = accountDetails.associatedMortgages.length ? accountDetails.associatedMortgages[0] : undefined
+        accountDetails.purchaseDate = getDateFromString(accountDetails.originalPurchasePriceDate)
 
         setAccount(accountDetails)
       })
   }, []);
-
-  console.log('here')
 
   return (
     <>
@@ -46,11 +38,11 @@ const Detail = ({}) => {
             </AccountHeadline>
             <AccountList>
               <AccountListItem><InfoText>
-                {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
+                {`Last updated ${account.lastUpdate}`}
               </InfoText></AccountListItem>
               <AccountListItem><InfoText>
                 {`Next update ${format(
-                  add(lastUpdate, { days: account.updateAfterDays }),
+                  add(new Date(account.lastUpdate), { days: account.updateAfterDays }),
                   "do MMM yyyy"
                 )}`}
               </InfoText></AccountListItem>
@@ -70,11 +62,17 @@ const Detail = ({}) => {
               <InfoText>
                 {`Purchased for `}
                 <Bold>${formatCurrency(CURRENCIES.GBP, account.originalPurchasePrice)}</Bold>
-                {` in ${format(purchaseDate, "MMM yyyy")}`}
+                {` in ${format(account.purchaseDate, "MMM yyyy")}`}
               </InfoText>
             </AccountListItem>
+            <AccountListItem>
+              <InfoText>Since purchase</InfoText>
+            </AccountListItem>
+            <AccountListItem>
+              <InfoText>Annual appreciation</InfoText>
+            </AccountListItem>
           </AccountSection>
-          {mortgage && (
+          {account.mortgage && (
             <AccountSection title='Mortgage'>
             <RowContainer
               // This is a dummy action
