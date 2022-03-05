@@ -7,7 +7,7 @@ import { AccountSection } from "./AccountSection"
 import { getDateFromString } from "../../utils/getDateFromString"
 import { formatCurrency, CURRENCIES } from "../../utils/formatCurrency"
 import {
-  Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold, Highlight 
+  Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold, HighlighItem, Highlight 
 } from "./style";
 
 const Detail = ({}) => {
@@ -69,21 +69,21 @@ const Detail = ({}) => {
             </RowContainer>
           </AccountSection>
           <AccountSection title='Valuation Change'>
-            <AccountListItem>
+            <HighlighItem>
               <InfoText>
                 {`Purchased for `}
                 <Bold>${formatCurrency(CURRENCIES.GBP, account.originalPurchasePrice)}</Bold>
                 {` in ${format(account.purchaseDate, "MMM yyyy")}`}
               </InfoText>
-            </AccountListItem>
-            <AccountListItem>
+            </HighlighItem>
+            <HighlighItem>
               <InfoText>Since purchase</InfoText>
               <Highlight>{account.sincePurchase} ({account.sincePurchasePercentage}%)</Highlight>
-            </AccountListItem>
-            <AccountListItem>
+            </HighlighItem>
+            <HighlighItem>
               <InfoText>Annual appreciation</InfoText>
               <Highlight>{account.annualAppreciation}</Highlight>
-            </AccountListItem>
+            </HighlighItem>
           </AccountSection>
           {account.mortgageDetails && (
             <AccountSection title='Mortgage'>

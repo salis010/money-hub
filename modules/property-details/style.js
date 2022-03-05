@@ -35,7 +35,6 @@ export const AccountList = styled.ul`
 
 export const AccountListItem = styled.li`
   display: flex;
-  align-items: center;
 
   &:not(:last-of-type) {
     margin-bottom: ${(props) => props.theme.space.m};
@@ -50,6 +49,12 @@ export const InfoText = styled.p`
 
 export const Bold = styled.span`
   font-weight: 600
+`
+
+export const HighlighItem = styled(AccountListItem)`
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `
 
 export const Highlight = styled.div`
