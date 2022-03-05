@@ -1,10 +1,10 @@
 /* eslint-disable max-statements */
-import React, { useState, useEffect } from "react";
-import { add, format, differenceInYears } from "date-fns";
-import { Button } from "../../components/button";
-import RowContainer from "../../components/row-container";
+import React, { useState, useEffect } from "react"
+import { add, format } from "date-fns"
+import { Button } from "../../components/button"
+import RowContainer from "../../components/row-container"
 import { AccountSection } from "./AccountSection"
-import { getDateFromString } from "../../utils/getDateFromString"
+import { constructAccountDetails } from "../../utils/constructAccountDetails"
 import { formatCurrency, CURRENCIES } from "../../utils/formatCurrency"
 import {
   Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold, HighlighItem, Highlight 
@@ -17,24 +17,7 @@ const Detail = ({}) => {
     window.fetch("/api/account")
       .then((res) => res.json())
       .then(data => {
-        const accountDetails = data.account
-        const { lastUpdate, associatedMortgages, originalPurchasePrice, originalPurchasePriceDate } = accountDetails
-
-        accountDetails.lastUpdateDate = format(new Date(lastUpdate), "do MMM yyyy")
-        accountDetails.mortgageDetails = associatedMortgages.length ? associatedMortgages[0] : undefined
-        accountDetails.purchaseDate = getDateFromString(originalPurchasePriceDate)
-        
-        const sincePurchase = accountDetails.recentValuation.amount - originalPurchasePrice
-        accountDetails.sincePurchase = formatCurrency(CURRENCIES.GBP, sincePurchase)
-
-        const sincePurchasePercentage = sincePurchase / originalPurchasePrice * 100
-        const numberOfYearsSincePurchase = differenceInYears(new Date(), new Date(originalPurchasePriceDate))
-
-        accountDetails.sincePurchasePercentage = sincePurchasePercentage
-        accountDetails.numberOfYearsSincePurchase = numberOfYearsSincePurchase
-        accountDetails.annualAppreciation = `${sincePurchasePercentage / numberOfYearsSincePurchase}%`
-
-        setAccount(accountDetails)
+        setAccount(constructAccountDetails(data))
       })
   }, []);
 
