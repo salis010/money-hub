@@ -4,7 +4,7 @@ import { add, format } from "date-fns";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  Inset, AccountSection, AccountLabel, AccountHeadline, AccountList, AccountListItem, InfoText 
 } from "./style";
 
 const Detail = ({}) => {

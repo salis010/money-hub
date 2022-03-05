@@ -1,8 +1,16 @@
 import styled, { css } from "styled-components";
 
-export const AccountList = styled.ul`
-  list-style: none;
-  padding-left: 0;
+export const Inset = styled.div`
+  padding: 0 ${(props) => props.theme.space.m};
+`;
+
+export const AccountSection = styled.div`
+  padding: ${(props) => props.theme.space.m} 0;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid ${(props) => props.theme.colors.neutral[200]};
+  }
+}
 `;
 
 export const AccountLabel = styled.div`
@@ -20,19 +28,9 @@ export const AccountHeadline = styled.h2`
   margin-bottom: ${(props) => props.theme.space.m};
 `;
 
-export const InfoText = styled.div`
-  line-height: 1.6;
-  font-size: ${(props) => props.theme.typography.m.fontSize};
-  color: ${(props) => props.theme.colors.neutral[600]};
-`;
-
-export const AccountSection = styled.div`
-  padding: ${(props) => props.theme.space.m} 0;
-
-  &:not(:last-of-type) {
-    border-bottom: 1px solid ${(props) => props.theme.colors.neutral[200]};
-  }
-}
+export const AccountList = styled.ul`
+  list-style: none;
+  padding-left: 0;
 `;
 
 export const AccountListItem = styled.div`
@@ -43,6 +41,14 @@ export const AccountListItem = styled.div`
   }
 `;
 
-export const Inset = styled.div`
-  padding: 0 ${(props) => props.theme.space.m};
+export const InfoText = styled.div`
+  line-height: 1.6;
+  font-size: ${(props) => props.theme.typography.m.fontSize};
+  color: ${(props) => props.theme.colors.neutral[600]};
 `;
+
+
+
+
+
+
