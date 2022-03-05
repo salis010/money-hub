@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
-import { add, format } from "date-fns";
 import React, { useEffect } from "react";
+import { add, format } from "date-fns";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import {
@@ -41,11 +41,9 @@ const Detail = ({}) => {
       .then(console.log);
   }, []);
 
-  let mortgage;
   const lastUpdate = new Date(account.lastUpdate);
-  if (account.associatedMortgages.length) {
-    mortgage = account.associatedMortgages[0];
-  }
+  
+  const mortgage = account.associatedMortgages.length ? account.associatedMortgages[0] : undefined
 
   return (
     <Inset>
