@@ -69,6 +69,7 @@ const Detail = ({}) => {
             </RowContainer>
           </AccountSection>
           <AccountSection title='Valuation Change'>
+          <AccountList>
             <HighlighItem>
               <InfoText>
                 {`Purchased for `}
@@ -84,6 +85,7 @@ const Detail = ({}) => {
               <InfoText>Annual appreciation</InfoText>
               <Highlight>{account.annualAppreciation}</Highlight>
             </HighlighItem>
+            </AccountList>
           </AccountSection>
           {account.mortgageDetails && (
             <AccountSection title='Mortgage'>
