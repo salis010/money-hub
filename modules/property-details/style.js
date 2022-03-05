@@ -4,7 +4,7 @@ export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
 `;
 
-export const AccountSection = styled.div`
+export const AccountSection = styled.section`
   padding: ${(props) => props.theme.space.m} 0;
 
   &:not(:last-of-type) {

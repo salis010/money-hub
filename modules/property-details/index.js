@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import { add, format } from "date-fns";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
+import { AccountSection } from "./AccountSection"
 import {
-  Inset, AccountSection, AccountLabel, AccountHeadline, AccountList, AccountListItem, InfoText 
+  Inset, AccountHeadline, AccountList, AccountListItem, InfoText 
 } from "./style";
 
 const Detail = ({}) => {
@@ -32,8 +33,7 @@ const Detail = ({}) => {
       {!account && <p>Loading...</p>}
       {account &&
         <Inset>
-          <AccountSection>
-            <AccountLabel>Estimated Value</AccountLabel>
+          <AccountSection title='Estimated Value'>
             <AccountHeadline>
               {new Intl.NumberFormat("en-GB", {
                 style: "currency",
@@ -52,8 +52,7 @@ const Detail = ({}) => {
               </InfoText></AccountListItem>
             </AccountList>
           </AccountSection>
-          <AccountSection>
-            <AccountLabel>Property details</AccountLabel>
+          <AccountSection title='Property details'>
             <RowContainer>
               <AccountList>
                 <AccountListItem><InfoText>{account.name}</InfoText></AccountListItem>
@@ -63,22 +62,25 @@ const Detail = ({}) => {
             </RowContainer>
           </AccountSection>
           {mortgage && (
-            <AccountSection>
-            <AccountLabel>Mortgage</AccountLabel>
+            <AccountSection title='Mortgage'>
             <RowContainer
               // This is a dummy action
               onClick={() => alert("You have navigated to the mortgage page")}
             >
               <AccountList>
-                <AccountListItem><InfoText>
-                  {new Intl.NumberFormat("en-GB", {
-                    style: "currency",
-                    currency: "GBP",
-                  }).format(
-                    Math.abs(account.associatedMortgages[0].currentBalance)
-                  )}
-                </InfoText></AccountListItem>
-                <AccountListItem><InfoText>{account.associatedMortgages[0].name}</InfoText></AccountListItem>
+                <AccountListItem>
+                  <InfoText>
+                    {new Intl.NumberFormat("en-GB", {
+                      style: "currency",
+                      currency: "GBP",
+                    }).format(
+                      Math.abs(account.associatedMortgages[0].currentBalance)
+                    )}
+                  </InfoText>
+                </AccountListItem>
+                <AccountListItem>
+                  <InfoText>{account.associatedMortgages[0].name}</InfoText>
+                </AccountListItem>
               </AccountList>
             </RowContainer>
           </AccountSection>
