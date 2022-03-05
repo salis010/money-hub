@@ -4,15 +4,18 @@ import { add, format } from "date-fns";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import { AccountSection } from "./AccountSection"
+import { getDateFromString } from "../../utils/getDateFromString"
+import { formatCurrency, CURRENCIES } from "../../utils/formatCurrency"
 import {
-  Inset, AccountHeadline, AccountList, AccountListItem, InfoText 
+  Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold 
 } from "./style";
 
 const Detail = ({}) => {
   const [ account, setAccount ] = useState()
   const [ lastUpdate, setLastUpdate ] = useState()
   const [ mortgage, setMortgage ] = useState()
-  
+  const [ purchaseDate, setPurchaseDate ] = useState()
+
   useEffect(() => {
     window.fetch("/api/account")
       .then((res) => res.json())
@@ -23,10 +26,14 @@ const Detail = ({}) => {
 
         const mortgageDetails = accountDetails.associatedMortgages.length ? accountDetails.associatedMortgages[0] : undefined
         setMortgage(mortgageDetails)
-        
+
+        setPurchaseDate(getDateFromString(accountDetails.originalPurchasePriceDate))
+
         setAccount(accountDetails)
       })
   }, []);
+
+  console.log('here')
 
   return (
     <>
@@ -35,10 +42,7 @@ const Detail = ({}) => {
         <Inset>
           <AccountSection title='Estimated Value'>
             <AccountHeadline>
-              {new Intl.NumberFormat("en-GB", {
-                style: "currency",
-                currency: "GBP",
-              }).format(account.recentValuation.amount)}
+            {formatCurrency(CURRENCIES.GBP, account.recentValuation.amount)}
             </AccountHeadline>
             <AccountList>
               <AccountListItem><InfoText>
@@ -60,6 +64,15 @@ const Detail = ({}) => {
                 <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
               </AccountList>
             </RowContainer>
+          </AccountSection>
+          <AccountSection title='Valuation Change'>
+            <AccountListItem>
+              <InfoText>
+                {`Purchased for `}
+                <Bold>${formatCurrency(CURRENCIES.GBP, account.originalPurchasePrice)}</Bold>
+                {` in ${format(purchaseDate, "MMM yyyy")}`}
+              </InfoText>
+            </AccountListItem>
           </AccountSection>
           {mortgage && (
             <AccountSection title='Mortgage'>

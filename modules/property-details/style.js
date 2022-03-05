@@ -47,6 +47,11 @@ export const InfoText = styled.p`
   color: ${(props) => props.theme.colors.neutral[600]};
 `;
 
+export const Bold = styled.span`
+  font-weight: 600
+`
+
+
 
 
 
