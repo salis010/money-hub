@@ -14,8 +14,8 @@ export const theme = {
   colors: {
     primary: generateShades("#01a5b8"),
     highlight: {
-      text: '#157360',
-      background: "#c5f7e1",
+      text: '#006b57',
+      background: "#c2f7e1",
     },
     neutral: {
       default: "#9e9e9e",

@@ -14,7 +14,7 @@ export const ValuationChangeSection = ({
     sincePurchasePercentage,
     annualAppreciation
 }) =>
-    <AccountSection title='Valuation Change'>
+    <AccountSection title='Valuation Changes'>
         <AccountList>
             <HighlighItem>
                 <InfoText>
