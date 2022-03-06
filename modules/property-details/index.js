@@ -1,14 +1,17 @@
 /* eslint-disable max-statements */
 import React, { useState, useEffect } from "react"
 import { add, format } from "date-fns"
+import { EstimatedValueSection } from "./estimated-value-section"
+import { PropertyDetailsSection } from "./property-details-section"
+import { ValuationChangeSection } from "./valuation-change-section"
+import { MortgageSection } from "./mortgage-section"
 import { Button } from "../../components/button"
 import RowContainer from "../../components/row-container"
-import { AccountSection } from "./AccountSection"
 import { constructAccountDetails } from "../../utils/constructAccountDetails"
 import { formatCurrency, CURRENCIES } from "../../utils/formatCurrency"
 import {
   Inset, AccountHeadline, AccountList, AccountListItem, InfoText, Bold, HighlighItem, Highlight 
-} from "./style";
+} from "./style"
 
 const Detail = ({}) => {
   const [ account, setAccount ] = useState()
@@ -19,80 +22,35 @@ const Detail = ({}) => {
       .then(data => {
         setAccount(constructAccountDetails(data))
       })
-  }, []);
+  }, [])
 
   return (
     <>
       {!account && <p>Loading...</p>}
       {account &&
         <Inset>
-          <AccountSection title='Estimated Value'>
-            <AccountHeadline>
-            {formatCurrency(CURRENCIES.GBP, account.recentValuation.amount)}
-            </AccountHeadline>
-            <AccountList>
-              <AccountListItem><InfoText>
-                {`Last updated ${account.lastUpdate}`}
-              </InfoText></AccountListItem>
-              <AccountListItem><InfoText>
-                {`Next update ${format(
-                  add(new Date(account.lastUpdate), { days: account.updateAfterDays }),
-                  "do MMM yyyy"
-                )}`}
-              </InfoText></AccountListItem>
-            </AccountList>
-          </AccountSection>
-          <AccountSection title='Property details'>
-            <RowContainer>
-              <AccountList>
-                <AccountListItem><InfoText>{account.name}</InfoText></AccountListItem>
-                <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
-                <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
-              </AccountList>
-            </RowContainer>
-          </AccountSection>
-          <AccountSection title='Valuation Change'>
-          <AccountList>
-            <HighlighItem>
-              <InfoText>
-                {`Purchased for `}
-                <Bold>${formatCurrency(CURRENCIES.GBP, account.originalPurchasePrice)}</Bold>
-                {` in ${format(account.purchaseDate, "MMM yyyy")}`}
-              </InfoText>
-            </HighlighItem>
-            <HighlighItem>
-              <InfoText>Since purchase</InfoText>
-              <Highlight>{account.sincePurchase} ({account.sincePurchasePercentage}%)</Highlight>
-            </HighlighItem>
-            <HighlighItem>
-              <InfoText>Annual appreciation</InfoText>
-              <Highlight>{account.annualAppreciation}</Highlight>
-            </HighlighItem>
-            </AccountList>
-          </AccountSection>
+          <EstimatedValueSection
+            amount={account.recentValuation.amount}
+            lastUpdate={account.lastUpdate}
+            updateAfterDays={account.updateAfterDays}
+          />
+          <PropertyDetailsSection
+            name={account.name}
+            bankName={account.bankName}
+            postcode={account.postcode}
+          />
+          <ValuationChangeSection
+            originalPurchasePrice={account.originalPurchasePrice}
+            purchaseDate={account.purchaseDate}
+            sincePurchase={account.sincePurchase}
+            sincePurchasePercentage={account.sincePurchasePercentage}
+            annualAppreciation={account.annualAppreciation}
+          />
           {account.mortgageDetails && (
-            <AccountSection title='Mortgage'>
-            <RowContainer
-              // This is a dummy action
-              onClick={() => alert("You have navigated to the mortgage page")}
-            >
-              <AccountList>
-                <AccountListItem>
-                  <InfoText>
-                    {new Intl.NumberFormat("en-GB", {
-                      style: "currency",
-                      currency: "GBP",
-                    }).format(
-                      Math.abs(account.associatedMortgages[0].currentBalance)
-                    )}
-                  </InfoText>
-                </AccountListItem>
-                <AccountListItem>
-                  <InfoText>{account.associatedMortgages[0].name}</InfoText>
-                </AccountListItem>
-              </AccountList>
-            </RowContainer>
-          </AccountSection>
+            <MortgageSection
+              currentBalance={account.associatedMortgages[0].currentBalance}
+              name={account.associatedMortgages[0].name}
+            />
           )}
           <Button
             // This is a dummy action
@@ -102,7 +60,7 @@ const Detail = ({}) => {
           </Button>
         </Inset>}
     </>
-  );
-};
+  )
+}
 
-export default Detail;
+export default Detail
